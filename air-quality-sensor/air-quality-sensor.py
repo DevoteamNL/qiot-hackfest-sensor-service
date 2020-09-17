@@ -1,23 +1,21 @@
 import tornado.ioloop
 import tornado.web
-import time
+import datetime
 from enviroplus import gas
 
 class GasHandler(tornado.web.RequestHandler):
     def get(self):
         gas_reading = {}
-
+        # gas.enable_adc(True)
         readings = gas.read_all()
-        logging.info(readings)
 
+        gas_reading["instant"] = datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%fZ")
+        gas_reading["adc"] = readings.adc
+        gas_reading["nh3"] = readings.nh3
+        gas_reading["oxidising"] = readings.oxidising
+        gas_reading["reducing"] = readings.reducing
 
-        # gas_reading["instant"] = "timestamp"
-        # gas_reading["adc"] = "blah"
-        # gas_reading["nh3"] = "blah"
-        # gas_reading["oxidising"] = "blah"
-        # gas_reading["reducing"] = "blah"
-
-        self.write(readings)
+        self.write(gas_reading)
 
 def make_app():
     return tornado.web.Application([
