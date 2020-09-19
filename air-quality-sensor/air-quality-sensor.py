@@ -3,11 +3,14 @@ import tornado.web
 import datetime
 from enviroplus import gas
 from pms5003 import PMS5003, ReadTimeoutError
+import logging
+import time
 
 class GasHandler(tornado.web.RequestHandler):
     def get(self):
         gas_reading = {}
-        # gas.enable_adc(True)
+        gas.enable_adc()
+        gas.set_adc_gain(4.096)
         readings = gas.read_all()
 
         gas_reading["instant"] = datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%fZ")
@@ -58,6 +61,13 @@ def make_app():
     ])
 
 if __name__ == "__main__":
+    logging.basicConfig(
+        format='%(asctime)s.%(msecs)03d %(levelname)-8s %(message)s',
+        level=logging.INFO,
+        datefmt='%Y-%m-%d %H:%M:%S')
     app = make_app()
+    logging.info("Sensor service is starting...waiting 30 seconds to initialize..")
+    time.sleep(30.0)
+    logging.info("Initialization complete, started API server.")
     app.listen(8888)
     tornado.ioloop.IOLoop.current().start()

@@ -1,11 +1,17 @@
-FROM bentaljaard/fedora:32-aarch64 
+FROM bentaljaard/fedora:32-aarch64 AS builder
+
+RUN dnf -y install portaudio python3-pip python3-numpy python3-cffi  python3-pillow python3-setuptools python3-libgpiod python3-libgpiod python3-RPi.GPIO python3-devel python3-spidev gcc make
+RUN pip3 install --user vcgencmd smbus sounddevice enviroplus tornado
+
+
+FROM bentaljaard/fedora:32-aarch64 AS runtime
 
 RUN curl https://copr.fedorainfracloud.org/coprs/leo3418/raspberrypi-userland/repo/fedora-32/leo3418-raspberrypi-userland-fedora-32.repo -o /etc/yum.repos.d/leo3418-raspberrypi-userland-fedora-32.repo
-RUN dnf -y install raspberrypi-userland portaudio python3-pip python3-numpy python3-cffi  python3-pillow python3-setuptools python3-libgpiod python3-libgpiod python3-RPi.GPIO python3-devel python3-spidev
-RUN dnf -y groupinstall "Development Tools" "Development Libraries"
-RUN pip3 install vcgencmd smbus sounddevice enviroplus tornado
+RUN dnf -y install raspberrypi-userland portaudio python3-numpy python3-cffi  python3-pillow python3-libgpiod python3-libgpiod python3-RPi.GPIO python3-spidev
 
 WORKDIR /usr/src/app
-COPY examples/* ./
-CMD ["python3", "all-in-one.py"]
+COPY --from=builder /root/.local /root/.local
+COPY air-quality-sensor/* ./
 
+ENV PATH=/root/.local/bin:$PATH
+CMD ["python3", "air-quality-sensor.py"]
