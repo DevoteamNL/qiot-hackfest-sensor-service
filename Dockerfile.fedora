@@ -2,9 +2,11 @@ FROM fedora:32
 
 RUN dnf -y install dnf-plugins-core
 RUN dnf -y config-manager --add-repo https://copr.fedorainfracloud.org/coprs/leo3418/raspberrypi-userland/repo/fedora-32/leo3418-raspberrypi-userland-fedora-32.repo
-RUN dnf -y dnf install raspberrypi-userland
+RUN dnf -y install raspberrypi-userland
 RUN dnf install -y portaudio python3-pip python3-numpy python3-cffi  python3-pillow python3-setuptools
 RUN dnf install -y python3-libgpiod python3-libgpiod python3-RPi.GPIO
+RUN dnf -y groupinstall "Development Tools" "Development Libraries"
+
 
 RUN pip3 install spidev vcgencmd smbus sounddevice enviroplus tornado
 
