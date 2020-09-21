@@ -1,1 +1,0 @@
-# qiot-hackfest-sensor-service

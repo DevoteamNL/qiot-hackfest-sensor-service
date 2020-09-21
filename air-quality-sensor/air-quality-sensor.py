@@ -7,6 +7,11 @@ import logging
 import time
 
 class GasHandler(tornado.web.RequestHandler):
+    def prepare(self):
+        header = "Content-Type"
+        body = "application/json"
+        self.set_header(header, body)
+
     def get(self):
         gas_reading = {}
         gas.enable_adc()
@@ -25,6 +30,11 @@ class GasHandler(tornado.web.RequestHandler):
 class PollutionHandler(tornado.web.RequestHandler):
     def initialize(self, pms5003):
         self.pms5003 = pms5003
+    
+    def prepare(self):
+        header = "Content-Type"
+        body = "application/json"
+        self.set_header(header, body)
 
     def get(self):
         pollution_reading = {}
