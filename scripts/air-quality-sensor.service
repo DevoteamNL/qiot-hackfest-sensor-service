@@ -1,0 +1,10 @@
+[Unit]
+Description=Air Quality Sensor Service
+
+[Service]
+Restart=always
+ExecStart=/usr/bin/podman start -a air-quality-sensor
+ExecStop=/usr/bin/podman stop -t 2 air-quality-sensor
+
+[Install]
+WantedBy=local.target
