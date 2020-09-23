@@ -1,6 +1,6 @@
-# QIOT Hackfest Air Quality Sensor Service  ![Docker Image CI]
+# QIOT Hackfest Air Quality Sensor Service  
 
-(https://github.com/DevoteamNL/qiot-hackfest-sensor-service/workflows/Docker%20Image%20CI/badge.svg)
+![Docker Image CI](https://github.com/DevoteamNL/qiot-hackfest-sensor-service/workflows/Docker%20Image%20CI/badge.svg)
 
 This service interacts with the Enviroplus HAT (with particulate matter sensor) in order to provide air quality information via a REST api.
 
