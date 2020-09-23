@@ -57,6 +57,20 @@ class PollutionHandler(tornado.web.RequestHandler):
         pollution_reading["gt10um"] = readings.pm_per_1l_air(10)
         self.write(pollution_reading)
 
+
+class HealthHandler(tornado.web.RequestHandler):
+    def prepare(self):
+        header = "Content Type"
+        body = "application/json"
+        self.set_header(header, body)
+
+    def get(self):
+        health_status = {}
+        health_status["status"] = "UP"
+        health_status["checks"] = "[]"
+        self.write(health_status)
+
+
 def make_app():
     # Initialize particulate sensor at application start
     pms5003 = PMS5003(
@@ -68,6 +82,7 @@ def make_app():
     return tornado.web.Application([
         (r"/gas", GasHandler),
         (r"/pollution", PollutionHandler, dict(pms5003=pms5003)),
+        (r"/health", HealthHandler)
     ])
 
 if __name__ == "__main__":
