@@ -59,7 +59,7 @@ Example Response:
 
 The docker files are structured to provide either a build that can be compiled on the Raspberry PI itself, or (using multiarch) compile an aarch64 docker image on any x86_64 linux machine. https://github.com/DevoteamNL/fedora.git
 
-### Compiling in the raspberry itself
+### Compiling on the raspberry itself
 
 Run the following to build the docker image:
 
