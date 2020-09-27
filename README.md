@@ -82,3 +82,10 @@ Now you can compile aarch64 docker containers
 ```
 docker build -t [docker image tag name] -f Dockerfile.fedora.multiarch .
 ```
+
+## Running the container on the raspberry
+
+```
+podman run -d -p 8888:8888 --network=qiot --privileged --name=air-quality-sensor bentaljaard/air-quality-sensor:aarch64-latest
+```
+
